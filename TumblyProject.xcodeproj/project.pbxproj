@@ -13,6 +13,11 @@
 		C96CF31C230AE74A00F7C210 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C96CF31A230AE74A00F7C210 /* LaunchScreen.storyboard */; };
 		C96CF31F230AE74A00F7C210 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF31E230AE74A00F7C210 /* main.m */; };
 		C96CF32C230AE8D800F7C210 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF32B230AE8D800F7C210 /* LoginViewController.m */; };
+		C96CF333230CF59F00F7C210 /* DeviceSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF332230CF59F00F7C210 /* DeviceSearchViewController.m */; };
+		C96CF336230CF5C500F7C210 /* DeviceSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF335230CF5C500F7C210 /* DeviceSearchTableViewCell.m */; };
+		C96CF338230D7BFA00F7C210 /* DeviceInfo.h in Sources */ = {isa = PBXBuildFile; fileRef = C96CF337230D7BFA00F7C210 /* DeviceInfo.h */; };
+		C96CF33A230D80E300F7C210 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF339230D80E300F7C210 /* DeviceInfo.m */; };
+		C96CF341230DA6D300F7C210 /* DeviceConnectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,14 @@
 		C96CF31E230AE74A00F7C210 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C96CF32A230AE8D800F7C210 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C96CF32B230AE8D800F7C210 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		C96CF331230CF59F00F7C210 /* DeviceSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceSearchViewController.h; sourceTree = "<group>"; };
+		C96CF332230CF59F00F7C210 /* DeviceSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceSearchViewController.m; sourceTree = "<group>"; };
+		C96CF334230CF5C500F7C210 /* DeviceSearchTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceSearchTableViewCell.h; sourceTree = "<group>"; };
+		C96CF335230CF5C500F7C210 /* DeviceSearchTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceSearchTableViewCell.m; sourceTree = "<group>"; };
+		C96CF337230D7BFA00F7C210 /* DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		C96CF339230D80E300F7C210 /* DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
+		C96CF33F230DA6D300F7C210 /* DeviceConnectedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceConnectedViewController.h; sourceTree = "<group>"; };
+		C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceConnectedViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +86,8 @@
 		C96CF325230AE7A900F7C210 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C96CF33B230DA47500F7C210 /* DeviceConnectedViewController */,
+				C96CF32D230CF52F00F7C210 /* DeviceSearchViewController */,
 				C96CF326230AE84500F7C210 /* LoginViewController */,
 			);
 			path = Scenes;
@@ -111,6 +126,76 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C96CF32D230CF52F00F7C210 /* DeviceSearchViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF330230CF56700F7C210 /* Models */,
+				C96CF32F230CF56400F7C210 /* Views */,
+				C96CF32E230CF55E00F7C210 /* Controllers */,
+			);
+			path = DeviceSearchViewController;
+			sourceTree = "<group>";
+		};
+		C96CF32E230CF55E00F7C210 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF331230CF59F00F7C210 /* DeviceSearchViewController.h */,
+				C96CF332230CF59F00F7C210 /* DeviceSearchViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C96CF32F230CF56400F7C210 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF334230CF5C500F7C210 /* DeviceSearchTableViewCell.h */,
+				C96CF335230CF5C500F7C210 /* DeviceSearchTableViewCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C96CF330230CF56700F7C210 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF337230D7BFA00F7C210 /* DeviceInfo.h */,
+				C96CF339230D80E300F7C210 /* DeviceInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C96CF33B230DA47500F7C210 /* DeviceConnectedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF33E230DA49100F7C210 /* Models */,
+				C96CF33D230DA48D00F7C210 /* Views */,
+				C96CF33C230DA48400F7C210 /* Controllers */,
+			);
+			path = DeviceConnectedViewController;
+			sourceTree = "<group>";
+		};
+		C96CF33C230DA48400F7C210 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C96CF33F230DA6D300F7C210 /* DeviceConnectedViewController.h */,
+				C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C96CF33D230DA48D00F7C210 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C96CF33E230DA49100F7C210 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -142,6 +227,11 @@
 				TargetAttributes = {
 					C96CF30B230AE74900F7C210 = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -181,9 +271,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C96CF333230CF59F00F7C210 /* DeviceSearchViewController.m in Sources */,
+				C96CF33A230D80E300F7C210 /* DeviceInfo.m in Sources */,
 				C96CF31F230AE74A00F7C210 /* main.m in Sources */,
 				C96CF311230AE74900F7C210 /* AppDelegate.m in Sources */,
+				C96CF341230DA6D300F7C210 /* DeviceConnectedViewController.m in Sources */,
+				C96CF338230D7BFA00F7C210 /* DeviceInfo.h in Sources */,
 				C96CF32C230AE8D800F7C210 /* LoginViewController.m in Sources */,
+				C96CF336230CF5C500F7C210 /* DeviceSearchTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

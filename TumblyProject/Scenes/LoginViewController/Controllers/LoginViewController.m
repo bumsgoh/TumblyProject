@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "DeviceSearchViewController.h"
 
 @interface LoginViewController ()
 
@@ -55,6 +56,7 @@
     self.loginIdTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.loginIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
     self.loginIdTextField.backgroundColor = UIColor.clearColor;
+    self.loginIdTextField.textColor = UIColor.whiteColor;
     self.loginIdTextField.placeholder = @"아이디를 입력해주세요";
     self.loginIdTextField.textAlignment = NSTextAlignmentLeft;
     self.loginIdTextField.textContentType = UITextContentTypeEmailAddress;
@@ -76,6 +78,7 @@
     self.loginPasswordTextField.backgroundColor = UIColor.clearColor;
     self.loginPasswordTextField.textAlignment = NSTextAlignmentLeft;
     self.loginPasswordTextField.textContentType = UITextContentTypePassword;
+    self.loginPasswordTextField.textColor = UIColor.whiteColor;
     self.loginPasswordTextField.secureTextEntry = YES;
     self.loginPasswordTextField.clearButtonMode = YES;
     self.loginPasswordTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"비밀번호를 입력해주세요" attributes:@{NSForegroundColorAttributeName: UIColor.whiteColor}];
@@ -284,16 +287,17 @@
     
 }
 
-- (void)loginButtonDidTap {}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loginButtonDidTap {
+    
+    UINavigationController *deviceSearchNavigationController = [[UINavigationController alloc] initWithRootViewController:[[DeviceSearchViewController alloc] initWithNibName:nil bundle:nil]];
+   
+    deviceSearchNavigationController.navigationBar.topItem.title = @"기기 선택";
+    
+    [deviceSearchNavigationController.navigationBar setPrefersLargeTitles:YES];
+    [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
+    [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
 }
-*/
+
 
 @end

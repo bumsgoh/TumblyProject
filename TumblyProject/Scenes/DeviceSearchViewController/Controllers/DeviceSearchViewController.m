@@ -7,26 +7,187 @@
 //
 
 #import "DeviceSearchViewController.h"
+#import "DeviceSearchTableViewCell.h"
+#import "DeviceConnectedViewController.h"
+#import "DeviceInfo.h"
 
-@interface DeviceSearchViewController ()
+
+@interface DeviceSearchViewController () <UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate>
+
+@property (nonatomic, strong) UITableView *deviceSearchTableView;
+@property (nonatomic, strong) NSMutableArray *deviceList;
 
 @end
 
 @implementation DeviceSearchViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        peripheralPool = [[NSMutableArray alloc] init];
+        uartServiceUUIDString = @"6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
+        uartTXCharacteristicUUIDString = @"6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
+        uartRXCharacteristicUUIDString = @"6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setUiComponents];
+    [self setLayout];
+    [self setBluetoothTools];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setUiComponents {
+    self.deviceSearchTableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    self.deviceSearchTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.deviceSearchTableView.delegate = self;
+    self.deviceSearchTableView.dataSource = self;
+    [self.deviceSearchTableView registerClass:DeviceSearchTableViewCell.class
+                       forCellReuseIdentifier:@"deviceSearchCell"];
+    [self.view addSubview:self.deviceSearchTableView];
 }
-*/
 
+- (void)setLayout {
+    [[self.deviceSearchTableView.topAnchor
+      constraintEqualToAnchor:self.view.topAnchor]
+     setActive:YES];
+    [[self.deviceSearchTableView.leadingAnchor
+      constraintEqualToAnchor:self.view.leadingAnchor]
+     setActive:YES];
+    [[self.deviceSearchTableView.trailingAnchor
+      constraintEqualToAnchor:self.view.trailingAnchor]
+     setActive:YES];
+    [[self.deviceSearchTableView.bottomAnchor
+      constraintEqualToAnchor:self.view.bottomAnchor]
+     setActive:YES];
+}
+
+-(void)setBluetoothTools {
+    bluetoothManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView
+                 cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    DeviceSearchTableViewCell *cell = (DeviceSearchTableViewCell *)[_deviceSearchTableView dequeueReusableCellWithIdentifier:@"deviceSearchCell"];
+    
+    if (cell == nil) {
+        cell = [[DeviceSearchTableViewCell alloc]initWithStyle:nil
+                                               reuseIdentifier:@"deviceSearchCell"];
+    }
+    DeviceInfo *info = peripheralPool[indexPath.row];
+    cell.deviceNameLabel.text = info.getPeripheral.name;
+    cell.signalStrengthLabel.text = info.getSignalStrength;
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView
+heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section {
+    return peripheralPool.count;
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    DeviceInfo *info = peripheralPool[indexPath.row];
+    targetPeripheral = info.getPeripheral;
+    [bluetoothManager stopScan];
+    [bluetoothManager connectPeripheral:targetPeripheral options:nil];
+    
+    
+}
+
+- (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
+    NSMutableString *message = @"";
+    switch (central.state) {
+    case CBManagerStatePoweredOn:
+        message = [NSString stringWithString:@"Bluetooth is On"];
+        [bluetoothManager scanForPeripheralsWithServices:nil options:nil];
+    case CBManagerStatePoweredOff:
+        message = @"Bluetooth is Off";
+        
+    case CBManagerStateUnsupported:
+        message = @"Not Supported";
+    default:
+        message = @"Unknown Error";
+    }
+}
+
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
+    
+    NSString *rssiValue = RSSI.stringValue;
+    NSString *targetName = peripheral.name;
+   
+    NSLog(@"name is %@", targetName);
+    DeviceInfo *targetInfo = [[DeviceInfo alloc] init:peripheral with:rssiValue];
+    if (![targetName isEqualToString: @""] && targetName != nil) {
+        if ([peripheralPool containsObject:targetInfo]) {
+            NSInteger index = [peripheralPool indexOfObject:targetInfo];
+            DeviceInfo *updateItem = peripheralPool[index];
+            [updateItem setSignalStrength:rssiValue];
+        } else {
+            [peripheralPool addObject:targetInfo];
+        }
+        [self.deviceSearchTableView reloadData];
+    } else {
+        return;
+    }
+}
+
+- (void)centralManager:(CBCentralManager *)central
+  didConnectPeripheral:(CBPeripheral *)peripheral {
+    isTargetPeripheralConnected = YES;
+    DeviceConnectedViewController *connectedViewController = [[DeviceConnectedViewController alloc] initWithNibName:nil bundle:nil];
+    connectedViewController.view.backgroundColor = UIColor.whiteColor;
+    peripheral.delegate = connectedViewController;
+    [peripheral discoverServices:nil];
+    [self.navigationController pushViewController:connectedViewController animated:YES];
+    
+}
+
+- (void)centralManager:(CBCentralManager *)central
+didDisconnectPeripheral:(CBPeripheral *)peripheral
+                 error:(NSError *)error {
+    isTargetPeripheralConnected = NO;
+}
+
+//- (void)peripheral:(CBPeripheral *)peripheral
+//didDiscoverServices:(NSError *)error {
+//    for(CBService *service in peripheral.services) {
+//        [peripheral discoverCharacteristics:nil forService:service];
+//    }
+//}
+//
+//- (void)peripheral:(CBPeripheral *)peripheral
+//didDiscoverCharacteristicsForService:(CBService *)service
+//             error:(NSError *)error {
+//    NSLog(@"success");
+//    for(CBCharacteristic *characteristic in service.characteristics) {
+//        if ([characteristic.UUID.UUIDString isEqualToString:uartTXCharacteristicUUIDString]) {
+//            uartTXCharacteristic = characteristic;
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//            [peripheral readValueForCharacteristic:characteristic];
+//
+//            
+//        } else if ([characteristic.UUID.UUIDString isEqualToString:uartRXCharacteristicUUIDString]) {
+//            uartRXCharacteristic = characteristic;
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//            [peripheral readValueForCharacteristic:characteristic];
+//            
+//            
+//        }
+//    }
+//}
 @end

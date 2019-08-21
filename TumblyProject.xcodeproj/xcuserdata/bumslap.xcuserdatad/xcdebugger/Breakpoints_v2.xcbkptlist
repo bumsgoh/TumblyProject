@@ -6,16 +6,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TumblyProject/Scenes/LoginViewController/Controllers/LoginViewController.m"
-            timestampString = "587925999.426409"
+            filePath = "TumblyProject/Scenes/DeviceSearchViewController/Controllers/DeviceSearchViewController.m"
+            timestampString = "588108347.005959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-centralManagerDidUpdateState:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblyProject/Scenes/DeviceSearchViewController/Controllers/DeviceSearchViewController.m"
+            timestampString = "588108347.006269"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-centralManagerDidUpdateState:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblyProject/Scenes/DeviceSearchViewController/Controllers/DeviceSearchViewController.m"
+            timestampString = "588108347.0063469"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-centralManager:didDiscoverPeripheral:advertisementData:RSSI:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +57,109 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TumblyProject/Scenes/LoginViewController/Controllers/LoginViewController.m"
-            timestampString = "587925999.4268039"
+            filePath = "TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+            timestampString = "588108347.006424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "-setUiComponents"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "-peripheral:didDiscoverServices:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DeviceConnectedViewController peripheral:didDiscoverServices:]"
+                  moduleName = "TumblyProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bumslap/Documents/TumblyProject/TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+                  timestampString = "588107935.982667"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DeviceConnectedViewController peripheral:didDiscoverServices:]"
+                  moduleName = "TumblyProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bumslap/Documents/TumblyProject/TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+                  timestampString = "588107935.98878"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "148">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+            timestampString = "588108347.006978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DeviceConnectedViewController peripheral:didDiscoverCharacteristicsForService:error:]"
+                  moduleName = "TumblyProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bumslap/Documents/TumblyProject/TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+                  timestampString = "588107936.143101"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DeviceConnectedViewController peripheral:didDiscoverCharacteristicsForService:error:]"
+                  moduleName = "TumblyProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bumslap/Documents/TumblyProject/TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+                  timestampString = "588107936.1460871"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "192">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblyProject/Scenes/DeviceSearchViewController/Controllers/DeviceSearchViewController.m"
+            timestampString = "588108347.007251"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "-centralManager:didDisconnectPeripheral:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +169,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TumblyProject/Scenes/LoginViewController/Controllers/LoginViewController.m"
-            timestampString = "587925999.427106"
+            filePath = "TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+            timestampString = "588108347.007303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-setUiComponents"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblyProject/Scenes/DeviceConnectedViewController/Controllers/DeviceConnectedViewController.m"
+            timestampString = "588108347.007552"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

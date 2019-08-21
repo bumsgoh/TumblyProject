@@ -9,7 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-struct DeviceInfo {
+@interface DeviceInfo : NSObject {
     CBPeripheral *targetPeripheral;
     NSString *signalStrength;
-};
+}
+- (instancetype)init:(CBPeripheral *)peripheral with:(NSString *)strength;
+- (CBPeripheral *)getPeripheral;
+- (NSString *)getSignalStrength;
+- (void)setSignalStrength: (NSString *)strength;
+@end
