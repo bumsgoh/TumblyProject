@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *uartServiceUUIDString;
     NSString *uartTXCharacteristicUUIDString;
     NSString *uartRXCharacteristicUUIDString;
-    
+    CBPeripheral *targetPeripheral;
     CBCharacteristic *uartRXCharacteristic;
     CBCharacteristic *uartTXCharacteristic;
 }

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "DeviceConnectedViewController.h"
+@import Firebase;
 
 @interface AppDelegate ()
 
@@ -18,7 +19,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    [FIRApp configure];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -27,6 +28,7 @@
     self.window.rootViewController = viewController;
     
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

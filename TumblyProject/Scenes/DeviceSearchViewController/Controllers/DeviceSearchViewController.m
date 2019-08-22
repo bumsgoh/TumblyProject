@@ -40,6 +40,10 @@
     [self setLayout];
     [self setBluetoothTools];
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setPrefersLargeTitles:YES];
+}
 
 - (void)setUiComponents {
     self.deviceSearchTableView = [[UITableView alloc] initWithFrame:CGRectZero];
@@ -105,8 +109,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     targetPeripheral = info.getPeripheral;
     [bluetoothManager stopScan];
     [bluetoothManager connectPeripheral:targetPeripheral options:nil];
-    
-    
 }
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
@@ -151,6 +153,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     isTargetPeripheralConnected = YES;
     DeviceConnectedViewController *connectedViewController = [[DeviceConnectedViewController alloc] initWithNibName:nil bundle:nil];
     connectedViewController.view.backgroundColor = UIColor.whiteColor;
+    
     peripheral.delegate = connectedViewController;
     [peripheral discoverServices:nil];
     [self.navigationController pushViewController:connectedViewController animated:YES];

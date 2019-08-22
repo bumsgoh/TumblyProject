@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIImageView *bluetoothImageView;
 @property (nonatomic, strong) UIView *bluetoothBackgroundView;
 @property (nonatomic, strong) CAShapeLayer *pulsatingLayer;
+@property (nonatomic, strong) UITapGestureRecognizer *bluetoothSignalGestureRecognizer;
 @end
 
 @implementation DeviceConnectedViewController
@@ -24,6 +25,7 @@
         uartServiceUUIDString = @"6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
         uartTXCharacteristicUUIDString = @"6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
         uartRXCharacteristicUUIDString = @"6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
+        //TODO: Load light pattern
     }
     
     return self;
@@ -33,15 +35,25 @@
     [super viewDidLoad];
     [self setupCircleLayers];
     [self setUiComponents];
-    
     [self setLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setPrefersLargeTitles:NO];
    
 }
 
 - (void)setUiComponents {
+     //self.navigationController.navigationItem.rightBarButtonItem =
+    self.bluetoothSignalGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bluetoothImageViewDidTap)];
+    
     self.connectedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.connectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.connectedLabel.textColor = [UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0];
+    self.connectedLabel.textColor = [UIColor colorWithRed:87/255.f
+                                                    green:37/255.f
+                                                    blue:229/255.f
+                                                    alpha:1.0];
     self.connectedLabel.text = @"연결되었습니다";
     self.connectedLabel.font = [UIFont boldSystemFontOfSize:30];
     [self.view addSubview:self.connectedLabel];
@@ -59,7 +71,11 @@
     self.bluetoothImageView.image = [UIImage imageNamed:@"bluetooth"];
     self.bluetoothImageView.backgroundColor = UIColor.clearColor;
     self.bluetoothImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.bluetoothImageView.userInteractionEnabled = YES;
+    [self.bluetoothImageView addGestureRecognizer:self.bluetoothSignalGestureRecognizer];
     [self.bluetoothBackgroundView addSubview:self.bluetoothImageView];
+    
+    
 }
 
 - (void)setLayout {
@@ -98,18 +114,23 @@
      setActive:YES];
 }
 
+-(void)bluetoothImageViewDidTap {
+    [self sendSignalToTargetDevice];
+}
+
 -(CAShapeLayer *)createCircleLayer {
     CGFloat fullCircle = 2 * M_PI;
-
     CAShapeLayer *layer = [[CAShapeLayer alloc] init];
     UIBezierPath *circularPath = [UIBezierPath bezierPathWithArcCenter:CGPointZero radius:100 startAngle:0 endAngle:fullCircle clockwise:YES];
     layer.path = circularPath.CGPath;
-    layer.strokeColor = [UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:0.6].CGColor;
+    layer.strokeColor = [UIColor colorWithRed:87/255.f
+                                        green:37/255.f
+                                        blue:229/255.f
+                                        alpha:0.6].CGColor;
     layer.lineWidth = 1;
     layer.fillColor = UIColor.whiteColor.CGColor;
     layer.lineCap = kCALineCapRound;
     layer.position = self.view.center;
-    
     return layer;
 }
 
@@ -117,11 +138,6 @@
     self.pulsatingLayer = [self createCircleLayer];
     [self.view.layer addSublayer:self.pulsatingLayer];
     [self animatePulsatingLayer];
-    
-//    CAShapeLayer *trackLayer = [self createCircleShapeLayer];
-//    [view.layer.addSublayer(trackLayer)
-//
-
 }
 
 -(void)animatePulsatingLayer {
@@ -132,11 +148,9 @@
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     animation.autoreverses = YES;
     animation.repeatCount = INFINITY;
-
-//    [self.pulsatingLayer setValue:animation.toValue forKeyPath:animation.keyPath];
-
     [self.pulsatingLayer addAnimation:animation forKey:@"pulsing"];
 }
+
 - (void)peripheral:(CBPeripheral *)peripheral
 didDiscoverServices:(NSError *)error {
     for(CBService *service in peripheral.services) {
@@ -147,20 +161,14 @@ didDiscoverServices:(NSError *)error {
 - (void)peripheral:(CBPeripheral *)peripheral
 didDiscoverCharacteristicsForService:(CBService *)service
              error:(NSError *)error {
-    NSLog(@"success");
     for(CBCharacteristic *characteristic in service.characteristics) {
         if ([characteristic.UUID.UUIDString isEqualToString:uartTXCharacteristicUUIDString]) {
             uartTXCharacteristic = characteristic;
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-           // [peripheral readValueForCharacteristic:characteristic];
-            
-            
+            targetPeripheral = peripheral;
         } else if ([characteristic.UUID.UUIDString isEqualToString:uartRXCharacteristicUUIDString]) {
             uartRXCharacteristic = characteristic;
-           // [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             [peripheral readValueForCharacteristic:characteristic];
-            
-            
         }
     }
 }
@@ -169,19 +177,20 @@ didDiscoverCharacteristicsForService:(CBService *)service
 didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Decode the characteristic data
         NSData *data = characteristic.value;
-      
-        NSString* myString;
-        myString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(myString);
+        NSString* readDataString;
+        readDataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        if ([readDataString isEqualToString:@"@@M_WAKEUP"]) {
+            
+        }
     });
-//    if ([characteristic.UUID.UUIDString isEqualToString:@"6E400003-B5A3-F393-E0A9-E50E24DCCA9E"]) {
-//        //NSString *updatedValue = characteristic.value;
-//        NSLog(characteristic.value);
-//}
 }
 
+-(void)sendSignalToTargetDevice {
+    NSString *lightPattern = @"P1 0 0 0 0 6";
+    NSData *encodedData = [lightPattern dataUsingEncoding:NSASCIIStringEncoding];
+    [targetPeripheral writeValue:encodedData forCharacteristic:uartRXCharacteristic type:(CBCharacteristicWriteWithResponse)];
+}
 
 
 

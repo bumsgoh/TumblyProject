@@ -8,8 +8,9 @@
 
 #import "LoginViewController.h"
 #import "DeviceSearchViewController.h"
+@import Firebase;
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *signInBackgroundView;
 
@@ -28,12 +29,27 @@
 @property (nonatomic, strong) UILabel *appTitleLabel;
 @property (nonatomic, strong) UILabel *appSmallLabel;
 
+@property (strong, nonatomic) FIRDatabaseReference *ref;
+
 @end
 
 @implementation LoginViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    self.handle = [[FIRAuth auth]
+//                   addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth, FIRUser *_Nullable user) {
+//                       //TODO: do something
+//                   }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+   // [[FIRAuth auth] removeAuthStateDidChangeListener:_handle];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.ref = [[FIRDatabase database] reference];
     [self setUiComponents];
     [self setLayout];
     // Do any additional setup after loading the view.
@@ -55,6 +71,7 @@
     
     self.loginIdTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.loginIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.loginIdTextField.delegate = self;
     self.loginIdTextField.backgroundColor = UIColor.clearColor;
     self.loginIdTextField.textColor = UIColor.whiteColor;
     self.loginIdTextField.placeholder = @"아이디를 입력해주세요";
@@ -75,6 +92,7 @@
     
     self.loginPasswordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.loginPasswordTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.loginPasswordTextField.delegate = self;
     self.loginPasswordTextField.backgroundColor = UIColor.clearColor;
     self.loginPasswordTextField.textAlignment = NSTextAlignmentLeft;
     self.loginPasswordTextField.textContentType = UITextContentTypePassword;
@@ -289,15 +307,35 @@
 
 - (void)loginButtonDidTap {
     
-    UINavigationController *deviceSearchNavigationController = [[UINavigationController alloc] initWithRootViewController:[[DeviceSearchViewController alloc] initWithNibName:nil bundle:nil]];
+    [[FIRAuth auth] signInWithEmail:self->_loginIdTextField.text
+                           password:self->_loginPasswordTextField.text
+                         completion:^(FIRAuthDataResult * _Nullable authResult,
+                                      NSError * _Nullable error) {
+                             if (error) {
+                                 //TODO: 실패시 반환 및 오류 출력
+                                 return;
+                             }
+                             else {
+//
+//                                 FIRUser *userUid = authResult.user.uid;
+//                                 [[self.ref child:@"users"] updateChildValues: @{userUid: @{@"isSender": @true }}];
+//
+                                 UINavigationController *deviceSearchNavigationController = [[UINavigationController alloc] initWithRootViewController:[[DeviceSearchViewController alloc] initWithNibName:nil bundle:nil]];
+                                 
+                                 deviceSearchNavigationController.navigationBar.topItem.title = @"기기 선택";
+                                 
+                                 [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
+                                  @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
+                                 [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
+                             }
+                         }];
    
-    deviceSearchNavigationController.navigationBar.topItem.title = @"기기 선택";
-    
-    [deviceSearchNavigationController.navigationBar setPrefersLargeTitles:YES];
-    [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
-    [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
 }
 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
 
 @end
