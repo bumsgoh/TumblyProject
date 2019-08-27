@@ -20,6 +20,7 @@
 		C96CF33A230D80E300F7C210 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF339230D80E300F7C210 /* DeviceInfo.m */; };
 		C96CF341230DA6D300F7C210 /* DeviceConnectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */; };
 		C99717A3230E9F3900475225 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C99717A2230E9F3900475225 /* GoogleService-Info.plist */; };
+		C99717A523115FD400475225 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C99717A423115FD400475225 /* UserInfoManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		C96CF33F230DA6D300F7C210 /* DeviceConnectedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceConnectedViewController.h; sourceTree = "<group>"; };
 		C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceConnectedViewController.m; sourceTree = "<group>"; };
 		C99717A2230E9F3900475225 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C99717A423115FD400475225 /* UserInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoManager.m; sourceTree = "<group>"; };
+		C99717A6231161CB00475225 /* UserInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoManager.h; sourceTree = "<group>"; };
 		EE9EF60811887713C051BB1D /* libPods-TumblyProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblyProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -149,6 +152,8 @@
 		C96CF329230AE86600F7C210 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C99717A6231161CB00475225 /* UserInfoManager.h */,
+				C99717A423115FD400475225 /* UserInfoManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C96CF333230CF59F00F7C210 /* DeviceSearchViewController.m in Sources */,
+				C99717A523115FD400475225 /* UserInfoManager.m in Sources */,
 				C96CF33A230D80E300F7C210 /* DeviceInfo.m in Sources */,
 				C96CF31F230AE74A00F7C210 /* main.m in Sources */,
 				C96CF311230AE74900F7C210 /* AppDelegate.m in Sources */,

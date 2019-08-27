@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 #import "DeviceSearchViewController.h"
+#import "UserInfoManager.h"
+
 @import Firebase;
 
 @interface LoginViewController () <UITextFieldDelegate>
@@ -46,6 +48,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
    // [[FIRAuth auth] removeAuthStateDidChangeListener:_handle];
+    [self.ref removeAllObservers];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -320,13 +323,23 @@
 //                                 FIRUser *userUid = authResult.user.uid;
 //                                 [[self.ref child:@"users"] updateChildValues: @{userUid: @{@"isSender": @true }}];
 //
-                                 UINavigationController *deviceSearchNavigationController = [[UINavigationController alloc] initWithRootViewController:[[DeviceSearchViewController alloc] initWithNibName:nil bundle:nil]];
                                  
-                                 deviceSearchNavigationController.navigationBar.topItem.title = @"기기 선택";
-                                 
-                                 [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
-                                  @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
-                                 [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
+                                 [self.ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+                                     NSDictionary *userInfo = [[NSDictionary alloc] init];
+                                     userInfo = [snapshot.value valueForKey:@"users"];
+                                     NSString *userUid = authResult.user.uid;
+                                     BOOL isSender = (BOOL) userInfo[userUid];
+                                     UserInfoManager.shared.isSender = isSender;
+                                     UserInfoManager.shared.uid = userUid;
+                                     
+                                     UINavigationController *deviceSearchNavigationController = [[UINavigationController alloc] initWithRootViewController:[[DeviceSearchViewController alloc] initWithNibName:nil bundle:nil]];
+                                     
+                                     deviceSearchNavigationController.navigationBar.topItem.title = @"기기 선택";
+                                     
+                                     [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
+                                      @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
+                                     [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
+                                 }];
                              }
                          }];
    

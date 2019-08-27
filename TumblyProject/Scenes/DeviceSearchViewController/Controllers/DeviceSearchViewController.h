@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "DeviceInfo.h"
+@class DeviceInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 

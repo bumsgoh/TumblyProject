@@ -112,18 +112,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
-    NSMutableString *message = @"";
+    NSMutableString *message;
     switch (central.state) {
     case CBManagerStatePoweredOn:
-        message = [NSString stringWithString:@"Bluetooth is On"];
+        message = [NSMutableString stringWithString:@"Bluetooth is On"];
         [bluetoothManager scanForPeripheralsWithServices:nil options:nil];
     case CBManagerStatePoweredOff:
-        message = @"Bluetooth is Off";
-        
+        message = [NSMutableString stringWithString:@"Bluetooth is Off"];
     case CBManagerStateUnsupported:
-        message = @"Not Supported";
+        message = [NSMutableString stringWithString:@"Not Supported"];
     default:
-        message = @"Unknown Error";
+        message = [NSMutableString stringWithString:@"Unknown Error"];
+
     }
 }
 
@@ -166,31 +166,5 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
     isTargetPeripheralConnected = NO;
 }
 
-//- (void)peripheral:(CBPeripheral *)peripheral
-//didDiscoverServices:(NSError *)error {
-//    for(CBService *service in peripheral.services) {
-//        [peripheral discoverCharacteristics:nil forService:service];
-//    }
-//}
-//
-//- (void)peripheral:(CBPeripheral *)peripheral
-//didDiscoverCharacteristicsForService:(CBService *)service
-//             error:(NSError *)error {
-//    NSLog(@"success");
-//    for(CBCharacteristic *characteristic in service.characteristics) {
-//        if ([characteristic.UUID.UUIDString isEqualToString:uartTXCharacteristicUUIDString]) {
-//            uartTXCharacteristic = characteristic;
-//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-//            [peripheral readValueForCharacteristic:characteristic];
-//
-//            
-//        } else if ([characteristic.UUID.UUIDString isEqualToString:uartRXCharacteristicUUIDString]) {
-//            uartRXCharacteristic = characteristic;
-//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-//            [peripheral readValueForCharacteristic:characteristic];
-//            
-//            
-//        }
-//    }
-//}
+
 @end

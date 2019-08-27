@@ -7,6 +7,7 @@
 //
 
 #import "DeviceConnectedViewController.h"
+#import "UserInfoManager.h"
 
 @interface DeviceConnectedViewController () <CBPeripheralDelegate>
 
@@ -15,6 +16,7 @@
 @property (nonatomic, strong) UIView *bluetoothBackgroundView;
 @property (nonatomic, strong) CAShapeLayer *pulsatingLayer;
 @property (nonatomic, strong) UITapGestureRecognizer *bluetoothSignalGestureRecognizer;
+@property (strong, nonatomic) FIRDatabaseReference *ref;
 @end
 
 @implementation DeviceConnectedViewController
@@ -26,6 +28,7 @@
         uartTXCharacteristicUUIDString = @"6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
         uartRXCharacteristicUUIDString = @"6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
         //TODO: Load light pattern
+
     }
     
     return self;
@@ -33,15 +36,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.ref = [[FIRDatabase database] reference];
+    if (!UserInfoManager.shared.isSender) {
+        [[[self.ref child:@"users"] child: UserInfoManager.shared.uid] observeEventType:(FIRDataEventTypeChildChanged) withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+            [self sendSignalToTargetDevice];
+        }];
+    }
     [self setupCircleLayers];
     [self setUiComponents];
     [self setLayout];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setPrefersLargeTitles:NO];
    
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.ref removeAllObservers];
 }
 
 - (void)setUiComponents {
@@ -115,7 +129,10 @@
 }
 
 -(void)bluetoothImageViewDidTap {
-    [self sendSignalToTargetDevice];
+   // [self sendSignalToTargetDevice];
+    
+    [[[[self.ref child:@"users"] child:UserInfoManager.shared.uid] child:@"isOn"]
+     setValue:@true];
 }
 
 -(CAShapeLayer *)createCircleLayer {
@@ -165,6 +182,7 @@ didDiscoverCharacteristicsForService:(CBService *)service
         if ([characteristic.UUID.UUIDString isEqualToString:uartTXCharacteristicUUIDString]) {
             uartTXCharacteristic = characteristic;
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            [peripheral readValueForCharacteristic:characteristic];
             targetPeripheral = peripheral;
         } else if ([characteristic.UUID.UUIDString isEqualToString:uartRXCharacteristicUUIDString]) {
             uartRXCharacteristic = characteristic;
@@ -181,7 +199,30 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
         NSString* readDataString;
         readDataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         if ([readDataString isEqualToString:@"@@M_WAKEUP"]) {
-            
+            BOOL isSender = UserInfoManager.shared.isSender;
+            NSString *uid = UserInfoManager.shared.uid;
+            if (isSender == YES) {
+                [[self.ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+                    NSDictionary *userInfo = [[NSDictionary alloc] init];
+                    userInfo = snapshot.value;//[snapshot.value valueForKey:@"users"];
+                    NSLog(@"info is %@", userInfo);
+                    for (NSString *targetUid in userInfo) {
+                        if(![targetUid isEqualToString:uid]) {
+                            NSString *isOn = [[userInfo valueForKey:targetUid] valueForKey:@"isOn"];
+                            NSLog(@"a is %@", isOn );
+                            if([isOn isEqualToString:@"YES"]) {
+                                [[[[self.ref child:@"users"] child:targetUid] child:@"isOn"]
+                                 setValue:@"NO"];
+                            } else {
+                                [[[[self.ref child:@"users"] child:targetUid] child:@"isOn"]
+                                 setValue:@"YES"];
+                            }
+                        }
+                    }
+                }];
+            } else {
+                [self sendSignalToTargetDevice];
+            }
         }
     });
 }
