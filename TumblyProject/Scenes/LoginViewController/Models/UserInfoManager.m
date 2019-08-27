@@ -32,6 +32,7 @@
     if (self) {
         _isSender = NO;
         _uid = @"";
+        _lightPattern = @"P1 0 0 0 0 6";
     }
     
     return self;

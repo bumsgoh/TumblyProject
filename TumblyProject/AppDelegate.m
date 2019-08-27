@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "DeviceConnectedViewController.h"
+#import "LightPatternSettingViewController.h"
 
 @import Firebase;
 
@@ -25,6 +26,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     LoginViewController *viewController = [[LoginViewController alloc] init];
+  //  LightPatternSettingViewController *viewController = [[LightPatternSettingViewController alloc] init];
+
+   // UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     self.window.rootViewController = viewController;
     

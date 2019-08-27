@@ -21,6 +21,7 @@
 		C96CF341230DA6D300F7C210 /* DeviceConnectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96CF340230DA6D300F7C210 /* DeviceConnectedViewController.m */; };
 		C99717A3230E9F3900475225 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C99717A2230E9F3900475225 /* GoogleService-Info.plist */; };
 		C99717A523115FD400475225 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C99717A423115FD400475225 /* UserInfoManager.m */; };
+		C99717AD23157A0600475225 /* LightPatternSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99717AC23157A0600475225 /* LightPatternSettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		C99717A2230E9F3900475225 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C99717A423115FD400475225 /* UserInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoManager.m; sourceTree = "<group>"; };
 		C99717A6231161CB00475225 /* UserInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoManager.h; sourceTree = "<group>"; };
+		C99717AB23157A0600475225 /* LightPatternSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightPatternSettingViewController.h; sourceTree = "<group>"; };
+		C99717AC23157A0600475225 /* LightPatternSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightPatternSettingViewController.m; sourceTree = "<group>"; };
 		EE9EF60811887713C051BB1D /* libPods-TumblyProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblyProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -116,6 +119,7 @@
 		C96CF325230AE7A900F7C210 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C99717A7231579CB00475225 /* LightPatternSettingViewController */,
 				C96CF33B230DA47500F7C210 /* DeviceConnectedViewController */,
 				C96CF32D230CF52F00F7C210 /* DeviceSearchViewController */,
 				C96CF326230AE84500F7C210 /* LoginViewController */,
@@ -226,6 +230,39 @@
 			children = (
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C99717A7231579CB00475225 /* LightPatternSettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C99717AA231579EC00475225 /* Controllers */,
+				C99717A9231579E300475225 /* Views */,
+				C99717A8231579DE00475225 /* Models */,
+			);
+			path = LightPatternSettingViewController;
+			sourceTree = "<group>";
+		};
+		C99717A8231579DE00475225 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C99717A9231579E300475225 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C99717AA231579EC00475225 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C99717AB23157A0600475225 /* LightPatternSettingViewController.h */,
+				C99717AC23157A0600475225 /* LightPatternSettingViewController.m */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +376,7 @@
 				C96CF338230D7BFA00F7C210 /* DeviceInfo.h in Sources */,
 				C96CF32C230AE8D800F7C210 /* LoginViewController.m in Sources */,
 				C96CF336230CF5C500F7C210 /* DeviceSearchTableViewCell.m in Sources */,
+				C99717AD23157A0600475225 /* LightPatternSettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

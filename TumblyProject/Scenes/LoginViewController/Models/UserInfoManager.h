@@ -12,6 +12,7 @@
 
 @property (nonatomic) BOOL isSender;
 @property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *lightPattern;
 
 +(UserInfoManager *) shared;
 

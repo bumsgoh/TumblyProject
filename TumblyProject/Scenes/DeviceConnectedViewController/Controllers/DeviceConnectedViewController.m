@@ -7,13 +7,16 @@
 //
 
 #import "DeviceConnectedViewController.h"
+#import "LightPatternSettingViewController.h"
 #import "UserInfoManager.h"
+
 
 @interface DeviceConnectedViewController () <CBPeripheralDelegate>
 
 @property (nonatomic, strong) UILabel *connectedLabel;
 @property (nonatomic, strong) UIImageView *bluetoothImageView;
 @property (nonatomic, strong) UIView *bluetoothBackgroundView;
+@property (nonatomic, strong) UIBarButtonItem *lightPatternSettingButton;
 @property (nonatomic, strong) CAShapeLayer *pulsatingLayer;
 @property (nonatomic, strong) UITapGestureRecognizer *bluetoothSignalGestureRecognizer;
 @property (strong, nonatomic) FIRDatabaseReference *ref;
@@ -36,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.ref = [[FIRDatabase database] reference];
     if (!UserInfoManager.shared.isSender) {
         [[[self.ref child:@"users"] child: UserInfoManager.shared.uid] observeEventType:(FIRDataEventTypeChildChanged) withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
@@ -59,7 +63,9 @@
 }
 
 - (void)setUiComponents {
-     //self.navigationController.navigationItem.rightBarButtonItem =
+    self.lightPatternSettingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:(UIBarButtonSystemItemCompose) target:self action:@selector(lightPatternSettingButtonDidTap)];
+    
+    self.navigationItem.rightBarButtonItem = self.lightPatternSettingButton;
     self.bluetoothSignalGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bluetoothImageViewDidTap)];
     
     self.connectedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -129,10 +135,10 @@
 }
 
 -(void)bluetoothImageViewDidTap {
-   // [self sendSignalToTargetDevice];
+ [self sendSignalToTargetDevice];
     
-    [[[[self.ref child:@"users"] child:UserInfoManager.shared.uid] child:@"isOn"]
-     setValue:@true];
+//    [[[[self.ref child:@"users"] child:UserInfoManager.shared.uid] child:@"isOn"]
+//     setValue:@true];
 }
 
 -(CAShapeLayer *)createCircleLayer {
@@ -149,6 +155,14 @@
     layer.lineCap = kCALineCapRound;
     layer.position = self.view.center;
     return layer;
+}
+
+-(void)lightPatternSettingButtonDidTap {
+    LightPatternSettingViewController *lightSettingViewController = [[LightPatternSettingViewController alloc] initWithNibName:nil bundle:nil];
+    lightSettingViewController.view.backgroundColor = UIColor.whiteColor;
+    UINavigationController *lightPatternNavViewController = [[UINavigationController alloc] initWithRootViewController:lightSettingViewController];
+    
+    [self presentViewController:lightPatternNavViewController animated:YES completion:nil];
 }
 
 -(void)setupCircleLayers {
@@ -228,7 +242,7 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 }
 
 -(void)sendSignalToTargetDevice {
-    NSString *lightPattern = @"P1 0 0 0 0 6";
+    NSString *lightPattern = UserInfoManager.shared.lightPattern;
     NSData *encodedData = [lightPattern dataUsingEncoding:NSASCIIStringEncoding];
     [targetPeripheral writeValue:encodedData forCharacteristic:uartRXCharacteristic type:(CBCharacteristicWriteWithResponse)];
 }
