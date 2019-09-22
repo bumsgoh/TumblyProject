@@ -10,7 +10,7 @@
 
 @interface UserInfoManager : NSObject
 
-@property (nonatomic) BOOL isSender;
+@property (nonatomic, strong) NSString *isSender;
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSString *lightPattern;
 

@@ -328,7 +328,7 @@
                                      NSDictionary *userInfo = [[NSDictionary alloc] init];
                                      userInfo = [snapshot.value valueForKey:@"users"];
                                      NSString *userUid = authResult.user.uid;
-                                     BOOL isSender = (BOOL) userInfo[userUid];
+                                     NSString *isSender = (NSString *) userInfo[userUid];
                                      UserInfoManager.shared.isSender = isSender;
                                      UserInfoManager.shared.uid = userUid;
                                      

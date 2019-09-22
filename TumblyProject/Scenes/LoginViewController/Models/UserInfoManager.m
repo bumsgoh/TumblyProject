@@ -30,7 +30,7 @@
     
     self = [super init];
     if (self) {
-        _isSender = NO;
+        _isSender = @"NO";
         _uid = @"";
         _lightPattern = @"P1 0 0 0 0 6";
     }

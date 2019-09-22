@@ -41,11 +41,14 @@
     [super viewDidLoad];
     
     self.ref = [[FIRDatabase database] reference];
-    if (!UserInfoManager.shared.isSender) {
+    
         [[[self.ref child:@"users"] child: UserInfoManager.shared.uid] observeEventType:(FIRDataEventTypeChildChanged) withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-            [self sendSignalToTargetDevice];
+            NSString *isSender = UserInfoManager.shared.isSender;
+            if (![isSender isEqualToString:@"YES"]) {
+                [self sendSignalToTargetDevice];
+            }
         }];
-    }
+    
     [self setupCircleLayers];
     [self setUiComponents];
     [self setLayout];
@@ -213,9 +216,9 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
         NSString* readDataString;
         readDataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         if ([readDataString isEqualToString:@"@@M_WAKEUP"]) {
-            BOOL isSender = UserInfoManager.shared.isSender;
+            NSString *isSender = UserInfoManager.shared.isSender;
             NSString *uid = UserInfoManager.shared.uid;
-            if (isSender == YES) {
+            if ([isSender isEqualToString: @"YES"]) {
                 [[self.ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
                     NSDictionary *userInfo = [[NSDictionary alloc] init];
                     userInfo = snapshot.value;//[snapshot.value valueForKey:@"users"];
