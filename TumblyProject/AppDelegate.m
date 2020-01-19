@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "DeviceConnectedViewController.h"
 #import "LightPatternSettingViewController.h"
+#import "DeviceSearchViewController.h"
 
 @import Firebase;
 
@@ -24,8 +25,13 @@
     [FIRApp configure];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    LoginViewController *viewController = [[LoginViewController alloc] init];
+    UIViewController *viewController = nil;
+    if ([FIRAuth.auth currentUser] != nil) {
+        viewController = [[LoginViewController alloc] init];
+    } else {
+        viewController = [[DeviceSearchViewController alloc] init];
+    }
+
   //  LightPatternSettingViewController *viewController = [[LightPatternSettingViewController alloc] init];
 
    // UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];

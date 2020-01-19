@@ -17,9 +17,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>사용자의 기기와 동기화하기 위해서 블루투스 연결 액세스를 요청합니다</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

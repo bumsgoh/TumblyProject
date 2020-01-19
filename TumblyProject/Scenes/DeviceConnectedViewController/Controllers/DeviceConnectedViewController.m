@@ -20,6 +20,7 @@
 @property (nonatomic, strong) CAShapeLayer *pulsatingLayer;
 @property (nonatomic, strong) UITapGestureRecognizer *bluetoothSignalGestureRecognizer;
 @property (strong, nonatomic) FIRDatabaseReference *ref;
+@property (assign, nonatomic) BOOL isLoading;
 @end
 
 @implementation DeviceConnectedViewController
@@ -203,6 +204,7 @@ didDiscoverCharacteristicsForService:(CBService *)service
             targetPeripheral = peripheral;
         } else if ([characteristic.UUID.UUIDString isEqualToString:uartRXCharacteristicUUIDString]) {
             uartRXCharacteristic = characteristic;
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             [peripheral readValueForCharacteristic:characteristic];
         }
     }
@@ -211,15 +213,21 @@ didDiscoverCharacteristicsForService:(CBService *)service
 - (void)peripheral:(CBPeripheral *)peripheral
 didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error {
+    __weak __typeof(self)weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         NSData *data = characteristic.value;
         NSString* readDataString;
         readDataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        if ([readDataString isEqualToString:@"@@M_WAKEUP"]) {
+        if ([readDataString isEqualToString:@"@@K_DETECT"]) {
             NSString *isSender = UserInfoManager.shared.isSender;
             NSString *uid = UserInfoManager.shared.uid;
             if ([isSender isEqualToString: @"YES"]) {
-                [[self.ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+                if (weakSelf.isLoading) {
+                    return;
+                }
+                weakSelf.isLoading = YES;
+                [[weakSelf.ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+                    weakSelf.isLoading = NO;
                     NSDictionary *userInfo = [[NSDictionary alloc] init];
                     userInfo = snapshot.value;//[snapshot.value valueForKey:@"users"];
                     NSLog(@"info is %@", userInfo);

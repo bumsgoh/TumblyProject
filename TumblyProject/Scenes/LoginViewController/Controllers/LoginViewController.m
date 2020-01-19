@@ -328,7 +328,7 @@
                                      NSDictionary *userInfo = [[NSDictionary alloc] init];
                                      userInfo = [snapshot.value valueForKey:@"users"];
                                      NSString *userUid = authResult.user.uid;
-                                     NSString *isSender = (NSString *) userInfo[userUid];
+                                     NSString *isSender = [userInfo[userUid] valueForKey:@"isSender"] ;
                                      UserInfoManager.shared.isSender = isSender;
                                      UserInfoManager.shared.uid = userUid;
                                      
@@ -338,6 +338,7 @@
                                      
                                      [deviceSearchNavigationController.navigationBar setLargeTitleTextAttributes:
                                       @{NSForegroundColorAttributeName:[UIColor colorWithRed:87/255.f green:37/255.f blue:229/255.f alpha:1.0]}];
+                                     deviceSearchNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
                                      [self presentViewController:deviceSearchNavigationController animated:YES completion:nil];
                                  }];
                              }
