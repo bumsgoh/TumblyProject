@@ -29,7 +29,7 @@
     if ([FIRAuth.auth currentUser] != nil) {
         viewController = [[LoginViewController alloc] init];
     } else {
-        viewController = [[DeviceSearchViewController alloc] init];
+        viewController = [[LoginViewController alloc] init];
     }
 
   //  LightPatternSettingViewController *viewController = [[LightPatternSettingViewController alloc] init];
